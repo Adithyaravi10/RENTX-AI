@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ⚡ RentX AI — Smart Vehicle Rental Platform
 
 ```
@@ -165,3 +166,6 @@ MIT License — see LICENSE file for details.
 ---
 
 Built with ❤️ for smart, sustainable mobility in India.
+=======
+# RENTX-AI
+>>>>>>> fbfe630e4d8c200fe1a498da5dfdf223d625f0da
