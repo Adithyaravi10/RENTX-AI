@@ -1,0 +1,212 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background-color: rgb(10, 10, 15);
+  color: rgb(226, 232, 240);
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Syne', sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(19, 19, 26);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(0, 212, 255);
+  border-radius: 3px;
+}
+
+::selection {
+  background: rgb(0, 212, 255);
+  color: rgb(10, 10, 15);
+}
+
+.glass-card {
+  backdrop-filter: blur(12px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+}
+
+.neon-button {
+  background-color: rgb(0, 212, 255);
+  color: rgb(0, 0, 0);
+  font-weight: 700;
+  padding: 0.625rem 1.5rem;
+  border-radius: 0.75rem;
+  transition: all 0.3s;
+}
+
+.neon-button:hover {
+  box-shadow: 0 0 20px rgb(0, 212, 255);
+}
+
+.vehicle-card {
+  backdrop-filter: blur(12px);
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+  transition: all 0.3s;
+}
+
+.vehicle-card:hover {
+  transform: translateY(-0.5rem);
+  border-color: rgba(0, 212, 255, 0.5);
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+}
+
+.gradient-border {
+  background: linear-gradient(rgb(19, 19, 26), rgb(19, 19, 26)) padding-box,
+    linear-gradient(135deg, rgb(0, 212, 255), rgb(124, 58, 237)) border-box;
+  border: 2px solid transparent;
+}
+
+.pulse-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: rgb(0, 255, 135);
+  border-radius: 9999px;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.leaflet-container {
+  background: rgb(10, 10, 15) !important;
+  border-radius: 1rem;
+  z-index: 0;
+}
+
+/* ── Premium landing / 3D UI ── */
+
+.nav-glass {
+  backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(10, 10, 15, 0.72);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.25);
+}
+
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, rgb(0, 212, 255), rgb(124, 58, 237));
+  transition: width 0.3s ease, left 0.3s ease;
+  border-radius: 1px;
+}
+
+.nav-link:hover::after,
+.nav-link.text-brand-cyan::after {
+  width: 60%;
+  left: 20%;
+}
+
+.glass-card-premium {
+  backdrop-filter: blur(16px) saturate(150%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.text-gradient-cyan {
+  background: linear-gradient(135deg, rgb(0, 212, 255), rgb(124, 58, 237));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  font-weight: 700;
+  font-size: 1rem;
+  color: rgb(0, 0, 0);
+  background: linear-gradient(135deg, rgb(0, 212, 255), rgb(0, 180, 220));
+  border-radius: 0.875rem;
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  box-shadow: 0 0 0 rgba(0, 212, 255, 0);
+}
+
+.hero-cta-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 212, 255, 0.45), 0 0 40px rgba(0, 212, 255, 0.2);
+}
+
+.hero-cta-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  font-weight: 600;
+  font-size: 1rem;
+  color: rgb(0, 212, 255);
+  background: rgba(0, 212, 255, 0.05);
+  border: 1px solid rgba(0, 212, 255, 0.4);
+  border-radius: 0.875rem;
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-cta-outline:hover {
+  background: rgba(0, 212, 255, 0.12);
+  border-color: rgb(0, 212, 255);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 212, 255, 0.15);
+}
+
+.hero-grid-floor {
+  background-image:
+    linear-gradient(rgba(0, 212, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+  transform: perspective(500px) rotateX(60deg);
+  transform-origin: center bottom;
+  mask-image: linear-gradient(to top, black 20%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to top, black 20%, transparent 100%);
+}
+
+.tilt-card {
+  position: relative;
+  transform-style: preserve-3d;
+  transition: box-shadow 0.35s ease;
+  border-radius: 1rem;
+}
+
+.tilt-card:hover {
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35), 0 0 40px rgba(0, 212, 255, 0.08);
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+@media (max-width: 768px) {
+  .hero-grid-floor {
+    opacity: 0.15;
+  }
+}

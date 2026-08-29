@@ -1,0 +1,90 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: rentx-postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: rentx_ai
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U user -d rentx_ai']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: rentx-redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: rentx-server
+    ports:
+      - '5000:5000'
+    environment:
+      DATABASE_URL: postgresql://user:password@postgres:5432/rentx_ai
+      JWT_SECRET: docker_jwt_secret_change_in_prod
+      JWT_REFRESH_SECRET: docker_refresh_secret_change_in_prod
+      PYTHON_AI_SERVICE_URL: http://ai-service:8000
+      NODE_INTERNAL_URL: http://server:5000
+      CLIENT_URL: http://client:3000
+      PORT: 5000
+      NODE_ENV: development
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+
+  ai-service:
+    build:
+      context: ./ai-service
+      dockerfile: Dockerfile
+    container_name: rentx-ai
+    ports:
+      - '8000:8000'
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      NODE_INTERNAL_URL: http://server:5000
+      OPENWEATHER_API_KEY: ${OPENWEATHER_API_KEY}
+    depends_on:
+      - server
+    volumes:
+      - ./ai-service:/app
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: rentx-client
+    ports:
+      - '3000:3000'
+    environment:
+      VITE_API_URL: http://localhost:5000
+      VITE_SOCKET_URL: http://localhost:5000
+      VITE_AI_URL: http://localhost:8000
+      VITE_GOOGLE_MAPS_KEY: ${GOOGLE_MAPS_API_KEY}
+    depends_on:
+      - server
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+
+volumes:
+  postgres_data:
+  redis_data:

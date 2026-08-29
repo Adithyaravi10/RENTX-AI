@@ -1,0 +1,28 @@
+<!-- PLACEHOLDER: Replace with a real 3D model (GLB/GLTF via React Three Fiber) or high-res PNG/WebP -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 400" fill="none">
+  <defs>
+    <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00d4ff"/>
+      <stop offset="50%" stop-color="#0099cc"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="glassGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#88eeff" stop-opacity="0.08"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <ellipse cx="450" cy="340" rx="380" ry="35" fill="#000" opacity="0.45"/>
+  <path d="M80 260 L140 260 L180 180 L320 155 L520 150 L680 175 L780 230 L820 260 L820 280 L80 280 Z" fill="url(#bodyGrad)" filter="url(#glow)" opacity="0.95"/>
+  <path d="M200 175 L340 158 L500 155 L620 168 L580 210 L220 210 Z" fill="url(#glassGrad)"/>
+  <path d="M180 260 L820 260" stroke="#00d4ff" stroke-width="2" opacity="0.3"/>
+  <circle cx="210" cy="275" r="52" fill="#0a0a0f" stroke="#333" stroke-width="8"/>
+  <circle cx="210" cy="275" r="22" fill="#1a1a24"/>
+  <circle cx="690" cy="275" r="52" fill="#0a0a0f" stroke="#333" stroke-width="8"/>
+  <circle cx="690" cy="275" r="22" fill="#1a1a24"/>
+  <path d="M820 240 L870 250 L875 270 L820 270" fill="url(#bodyGrad)" opacity="0.8"/>
+  <rect x="350" y="168" width="80" height="6" rx="3" fill="#00ff87" opacity="0.7"/>
+</svg>

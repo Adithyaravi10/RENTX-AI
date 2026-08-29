@@ -1,0 +1,171 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String         @id @default(cuid())
+  name             String
+  email            String         @unique
+  password         String
+  phone            String?
+  role             String         @default("USER")
+  aadhaarVerified  Boolean        @default(false)
+  licenseNumber    String?
+  licenseImageUrl  String?
+  walletBalance    Float          @default(0)
+  ecoScore         Int            @default(0)
+  loyaltyPoints    Int            @default(0)
+  emergencyContact String?
+  createdAt        DateTime       @default(now())
+  bookings         Booking[]
+  reviews          Review[]
+  payments         Payment[]
+  notifications    Notification[]
+  trips            Trip[]
+  sosEvents        SOSEvent[]
+}
+
+model Vehicle {
+  id              String           @id @default(cuid())
+  name            String
+  brand           String
+  category        String
+  bodyType        String?
+  fuelType        String
+  description     String?
+  imageUrl        String?
+  pricePerHour    Float
+  locationLat     Float
+  locationLng     Float
+  isAvailable     Boolean          @default(true)
+  isDeleted       Boolean          @default(false)
+  batteryLevel    Float?
+  fuelLevel       Float?
+  healthScore     Int              @default(100)
+  odometer        Float            @default(0)
+  insuranceExpiry DateTime?
+  lastServiced    DateTime?
+  engineStatus    String           @default("OK")
+  createdAt       DateTime         @default(now())
+  bookings        Booking[]
+  gpsLogs         GPSLog[]
+  maintenanceLogs MaintenanceLog[]
+  reviews         Review[]
+}
+
+model Booking {
+  id              String        @id @default(cuid())
+  userId          String
+  vehicleId       String
+  startTime       DateTime
+  endTime         DateTime
+  pickupLat       Float
+  pickupLng       Float
+  dropLat         Float?
+  dropLng         Float?
+  totalPrice      Float
+  surgeMultiplier Float         @default(1.0)
+  status          String        @default("PENDING")
+  agreementUrl    String?
+  signatureData   String?
+  createdAt       DateTime      @default(now())
+  user            User          @relation(fields: [userId], references: [id])
+  vehicle         Vehicle       @relation(fields: [vehicleId], references: [id])
+  payment         Payment?
+  trip            Trip?
+}
+
+model Payment {
+  id              String        @id @default(cuid())
+  bookingId       String        @unique
+  userId          String
+  amount          Float
+  method          String
+  status          String        @default("PENDING")
+  transactionId   String?
+  razorpayOrderId String?
+  createdAt       DateTime      @default(now())
+  booking         Booking       @relation(fields: [bookingId], references: [id])
+  user            User          @relation(fields: [userId], references: [id])
+}
+
+model GPSLog {
+  id        String   @id @default(cuid())
+  vehicleId String
+  lat       Float
+  lng       Float
+  speed     Float
+  timestamp DateTime @default(now())
+  vehicle   Vehicle  @relation(fields: [vehicleId], references: [id])
+}
+
+model MaintenanceLog {
+  id          String    @id @default(cuid())
+  vehicleId   String
+  type        String
+  notes       String?
+  nextDue     DateTime?
+  completedAt DateTime?
+  vehicle     Vehicle   @relation(fields: [vehicleId], references: [id])
+}
+
+model ChargingStation {
+  id             String @id @default(cuid())
+  name           String
+  lat            Float
+  lng            Float
+  totalSlots     Int
+  availableSlots Int
+  pricePerUnit   Float
+  address        String?
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  userId    String
+  vehicleId String
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  vehicle   Vehicle  @relation(fields: [vehicleId], references: [id])
+}
+
+model Trip {
+  id           String   @id @default(cuid())
+  bookingId    String   @unique
+  userId       String
+  distanceKm   Float
+  co2Saved     Float
+  drivingScore Int
+  durationMin  Int
+  createdAt    DateTime @default(now())
+  booking      Booking  @relation(fields: [bookingId], references: [id])
+  user         User     @relation(fields: [userId], references: [id])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  message   String
+  type      String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model SOSEvent {
+  id        String   @id @default(cuid())
+  userId    String
+  lat       Float
+  lng       Float
+  status    String   @default("ACTIVE")
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
+
