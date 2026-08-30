@@ -6,6 +6,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
@@ -98,6 +99,11 @@ h1, h2, h3, h4, h5, h6 {
   backdrop-filter: blur(20px) saturate(180%);
   background: rgba(10, 10, 15, 0.72);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.25);
+}
+
+.nav-glass--film {
+  background: rgba(10, 10, 15, 0.28);
+  border-bottom-color: rgba(255, 255, 255, 0.06);
 }
 
 .nav-link {
@@ -208,5 +214,142 @@ h1, h2, h3, h4, h5, h6 {
 @media (max-width: 768px) {
   .hero-grid-floor {
     opacity: 0.15;
+  }
+}
+
+/* ── Cinematic GT3 film ── */
+
+.cinematic-sticky {
+  isolation: isolate;
+}
+
+.cinematic-car-layer {
+  transform-origin: 62% 58%;
+}
+
+.cinematic-tunnel-bands {
+  width: 220%;
+  height: 100%;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0px,
+      rgba(255, 255, 255, 0.035) 18px,
+      rgba(0, 0, 0, 0.25) 52px,
+      rgba(255, 255, 255, 0) 96px
+    ),
+    linear-gradient(180deg, #1a1c22 0%, #0c0d12 45%, #15161c 100%);
+  animation: cinematic-band-rush 1.05s linear infinite;
+}
+
+.cinematic-tunnel-bands--slow {
+  animation-duration: 2.4s;
+  opacity: 0.85;
+}
+
+@keyframes cinematic-band-rush {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 96px 0, 0 0; }
+}
+
+.cinematic-speed-streaks {
+  width: 240%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    95deg,
+    transparent 0 42px,
+    rgba(255, 255, 255, 0.06) 42px 44px,
+    transparent 44px 110px
+  );
+  mix-blend-mode: screen;
+  animation: cinematic-streak 0.55s linear infinite;
+  filter: blur(0.4px);
+}
+
+@keyframes cinematic-streak {
+  from { transform: translateX(0); }
+  to { transform: translateX(-110px); }
+}
+
+.cinematic-smoke {
+  background:
+    radial-gradient(ellipse 40% 50% at 18% 78%, rgba(180, 185, 195, 0.45), transparent 70%),
+    radial-gradient(ellipse 30% 40% at 8% 88%, rgba(120, 125, 135, 0.35), transparent 70%);
+  animation: cinematic-smoke-drift 3.2s ease-in-out infinite;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+.cinematic-smoke--thin {
+  opacity: 0.55;
+}
+
+@keyframes cinematic-smoke-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.7; }
+  50% { transform: translate(-3%, -2%) scale(1.08); opacity: 1; }
+}
+
+.cinematic-sparks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 42% 78%, #ffd24a 0 1px, transparent 2px),
+    radial-gradient(circle at 46% 82%, #ff8a1f 0 1.5px, transparent 3px),
+    radial-gradient(circle at 38% 80%, #ffe9a3 0 1px, transparent 2px),
+    radial-gradient(circle at 50% 85%, #ffb347 0 1px, transparent 2px);
+  animation: cinematic-spark-flicker 0.18s steps(2) infinite;
+  mix-blend-mode: plus-lighter;
+  opacity: 0.85;
+}
+
+@keyframes cinematic-spark-flicker {
+  0% { transform: translate(0, 0); opacity: 0.5; }
+  50% { transform: translate(1.5%, -0.8%); opacity: 1; }
+  100% { transform: translate(-1%, 0.6%); opacity: 0.4; }
+}
+
+.cinematic-red-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 28% 22% at 58% 62%, rgba(255, 32, 40, 0.28), transparent 70%);
+  animation: cinematic-tail-pulse 1.6s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+
+@keyframes cinematic-tail-pulse {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+.cinematic-scroll-line {
+  width: 1px;
+  height: 42px;
+  background: linear-gradient(to bottom, rgba(0, 212, 255, 0.8), transparent);
+  animation: cinematic-scroll-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes cinematic-scroll-pulse {
+  0%, 100% { transform: scaleY(1); opacity: 0.8; }
+  50% { transform: scaleY(0.55); opacity: 0.3; }
+}
+
+.cinematic-cta {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+}
+
+.cinematic-cta:hover {
+  transform: translateY(-3px) scale(1.03);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-tunnel-bands,
+  .cinematic-speed-streaks,
+  .cinematic-smoke,
+  .cinematic-sparks,
+  .cinematic-red-glow,
+  .cinematic-scroll-line {
+    animation: none;
   }
 }

@@ -1,6 +1,6 @@
-import { memo, lazy, Suspense, useEffect, useState } from 'react';
+import { memo, lazy, Suspense, useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import api from '../../utils/api';
 import { DEFAULT_LOCATION } from '../../hooks/useGeolocation';
@@ -13,6 +13,13 @@ const VehicleCard = lazy(() => import('../vehicles/VehicleCard'));
 function FeaturedVehicles() {
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const stripRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: stripRef,
+    offset: ['start end', 'end start'],
+  });
+  const headingX = useTransform(scrollYProgress, [0, 1], [-48, 48]);
+  const gridY = useTransform(scrollYProgress, [0, 1], [36, -36]);
 
   useEffect(() => {
     const params = new URLSearchParams({
@@ -32,9 +39,10 @@ function FeaturedVehicles() {
   }, []);
 
   return (
-    <section className="relative py-24 px-4">
+    <section ref={stripRef} className="relative py-24 px-4">
       <div className="max-w-7xl mx-auto">
         <ScrollReveal className="text-center mb-14">
+          <motion.div style={{ x: headingX }}>
           <span className="inline-flex items-center gap-2 text-brand-cyan text-sm font-medium mb-3">
             <Sparkles size={16} /> Curated Fleet
           </span>
@@ -44,6 +52,7 @@ function FeaturedVehicles() {
           <p className="text-gray-400 mt-4 max-w-xl mx-auto">
             Hand-picked rides from our Bengaluru fleet — hover to explore in 3D.
           </p>
+          </motion.div>
         </ScrollReveal>
 
         {loading ? (
@@ -55,7 +64,7 @@ function FeaturedVehicles() {
         ) : vehicles.length === 0 ? (
           <p className="text-center text-gray-500">No vehicles available right now.</p>
         ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <motion.div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" style={{ y: gridY }}>
             {vehicles.map((v, i) => (
               <ScrollReveal key={v.id} delay={i * 0.08}>
                 <TiltCard className="relative h-full">
@@ -65,7 +74,7 @@ function FeaturedVehicles() {
                 </TiltCard>
               </ScrollReveal>
             ))}
-          </div>
+          </motion.div>
         )}
 
         <ScrollReveal className="text-center mt-12" delay={0.2}>

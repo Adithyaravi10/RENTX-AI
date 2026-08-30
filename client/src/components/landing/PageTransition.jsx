@@ -4,6 +4,12 @@ import { useLocation } from 'react-router-dom';
 
 function PageTransition({ children }) {
   const location = useLocation();
+  const isHome = location.pathname === '/';
+
+  /* Motion transforms on this wrapper break position:sticky and useScroll. */
+  if (isHome) {
+    return <div className="flex-1 min-w-0">{children}</div>;
+  }
 
   return (
     <AnimatePresence mode="wait">
