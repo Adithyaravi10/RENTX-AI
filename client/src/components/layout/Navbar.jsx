@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Zap, Bell, Wallet, Menu, X, Cloud, LogOut, User, LayoutDashboard } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
@@ -12,6 +12,8 @@ export default function Navbar() {
   const { user, logout, isAuthenticated, isAdmin } = useAuth();
   const { weather } = useWeather();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const onFilm = pathname === '/';
   const [menuOpen, setMenuOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
@@ -53,12 +55,17 @@ export default function Navbar() {
         </motion.div>
       )}
 
-      <nav className="sticky top-0 z-40 nav-glass border-b border-white/10">
+      <nav className={`sticky top-0 z-40 border-b border-white/10 ${onFilm ? 'nav-glass nav-glass--film' : 'nav-glass'}`}>
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 bg-brand-cyan rounded-lg flex items-center justify-center group-hover:shadow-[0_0_20px_rgba(0,212,255,0.5)] transition-shadow">
+            <motion.div
+              className="w-8 h-8 bg-brand-cyan rounded-lg flex items-center justify-center"
+              whileHover={{ scale: 1.08, rotate: -8 }}
+              whileTap={{ scale: 0.94 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 18 }}
+            >
               <Zap size={18} className="text-black" />
-            </div>
+            </motion.div>
             <span className="font-syne font-bold text-xl text-white">
               RentX <span className="text-brand-cyan">AI</span>
             </span>
@@ -147,8 +154,10 @@ export default function Navbar() {
               </>
             ) : (
               <div className="flex gap-2">
-                <Link to="/login" className="text-sm text-gray-400 hover:text-white px-3 py-1.5">Login</Link>
-                <Link to="/register" className="neon-button text-sm px-4 py-1.5">Sign Up</Link>
+                <Link to="/login" className="text-sm text-gray-400 hover:text-white px-3 py-1.5 transition-colors">Login</Link>
+                <motion.div whileHover={{ scale: 1.05, y: -1 }} whileTap={{ scale: 0.97 }}>
+                  <Link to="/register" className="neon-button text-sm px-4 py-1.5 block">Sign Up</Link>
+                </motion.div>
               </div>
             )}
 
